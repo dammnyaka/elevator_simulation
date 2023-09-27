@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     addFloor() {
-      const newFloor = { number: this.floor.length + 1, activeFloor: false };
+      const newFloor = { number: this.floors.length + 1, activeFloor: false };
       this.floors.push(newFloor);
     },
     removeFloor() {
@@ -139,9 +139,9 @@ export default {
   flex-direction: column-reverse;
 }
 .instruments {
-  position: relative;
+  position: fixed;
   width: 100px;
-  margin-left: 10px;
+  right: 50px;
   background-color: #eee;
   text-align: center;
 }

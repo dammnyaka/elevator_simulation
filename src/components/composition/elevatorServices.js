@@ -11,32 +11,27 @@ export function findClosestElevator(array, target) {
 }
 
 export function handleCallElevator(floorNumber, elevators, queue, floors, moveElevator) {
-  const elevatorOnFloor = elevators.find(
+  const elevatorOnFloor = elevators.some(
     (elevator) => elevator.currentFloor === floorNumber || elevator.targetFloor === floorNumber
   );
-
   const floorInQueue = queue.some((call) => call.floor === floorNumber);
-
   if (elevatorOnFloor || floorInQueue) {
     return;
-  } else {
-    queue.push({ floor: floorNumber });
-    floors[floorNumber - 1].activeFloor = true;
+  }
 
-    const freeElevator = elevators.filter((elevator) => elevator.status === "idle");
-    if (freeElevator) {
-      const closestFloor = findClosestElevator(
-        freeElevator.map((elevator) => elevator.currentFloor),
-        floorNumber
-      );
-      const closestElev = elevators.find((i) => i.currentFloor === closestFloor);
-      const freElev = elevators.find((i) => i.status === "idle");
-      if (closestElev && closestElev.status === "idle") {
-        moveElevator(closestElev.id - 1);
-      } else if (freElev) {
-        moveElevator(elevators.indexOf(freElev));
-      }
-    }
+  queue.push({ floor: floorNumber });
+  floors[floorNumber - 1].activeFloor = true;
+
+  const freeElevators = elevators.filter((elevator) => elevator.status === "idle");
+
+  const closestFloor = findClosestElevator(
+    freeElevators.map((elevator) => elevator.currentFloor),
+    floorNumber
+  );
+  const closestElevator = freeElevators.find((elevator) => elevator.currentFloor === closestFloor);
+
+  if (closestElevator) {
+    moveElevator(elevators.indexOf(closestElevator));
   }
 }
 
