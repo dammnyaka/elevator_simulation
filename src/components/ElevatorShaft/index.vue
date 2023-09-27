@@ -1,6 +1,6 @@
 <template>
-  <div class="shaft">
-    <div class="elevator">
+  <div class="shaft" :style="{ height: `${floorsNumber * floorHeight}px` }">
+    <div class="elevator" :style="elevatorStyle">
       <div class="elevator_navigation">
         <span class="elevator_navigation-up" v-if="elevator.direction === 'up' && true"> </span>
         <span class="elevator_navigation-down" v-if="elevator.direction === 'down' && true"> </span>
@@ -28,7 +28,17 @@ export default {
       floorHeight: 100,
     };
   },
-  computed: {},
+  computed: {
+    elevatorStyle() {
+      let position = (this.currentFloor - 1) * this.floorHeight;
+      let animationElevator = this.elevator.status === "resting" ? "restingAnimate 1s infinite linear" : "";
+      return {
+        bottom: `${position}px`,
+        transition: "bottom 1s ease-in-out",
+        animation: animationElevator,
+      };
+    },
+  },
 };
 </script>
 <style lang="css">
@@ -71,5 +81,17 @@ export default {
   border-top: 2px solid #000000;
   border-right: 2px solid #000000;
   transform: translateY(0px) rotate(135deg);
+}
+
+@keyframes restingAnimate {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>
