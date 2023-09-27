@@ -1,7 +1,14 @@
 <template>
   <div id="app">
     <div class="wrapper">
-      <div class="elevators"><elevator-shaft></elevator-shaft></div>
+      <div class="elevators" v-for="elevator in elevators" :key="elevator.id">
+        <elevator-shaft
+          :floors-number="floors.length"
+          :current-floor="elevator.currentFloor"
+          :queue="queue"
+          :elevator="elevator"
+        ></elevator-shaft>
+      </div>
 
       <div class="floors"><floor></floor></div>
       <div class="instruments"><Instruments></Instruments></div>
@@ -14,6 +21,8 @@ import ElevatorShaft from "@/components/ElevatorShaft/";
 import Floor from "@/components/Floor/";
 import Instruments from "@/components/Instruments/";
 
+import * as data from "./components/data/";
+
 export default {
   name: "App",
   components: {
@@ -21,6 +30,15 @@ export default {
     Floor,
     Instruments,
   },
+  data() {
+    return {
+      floors: data.floorsData,
+      elevators: data.elevatorsData,
+      queue: data.queueData,
+    };
+  },
+  created() {},
+  methods: {},
 };
 </script>
 
