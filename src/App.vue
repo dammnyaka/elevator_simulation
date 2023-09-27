@@ -31,6 +31,8 @@ import Instruments from "@/components/Instruments/";
 
 import * as data from "./components/data/";
 
+import { handleCallElevator, moveElevator } from "./components/composition/elevatorServices";
+
 export default {
   name: "App",
   components: {
@@ -47,7 +49,13 @@ export default {
   },
   created() {},
   methods: {
-    handleCallElevator() {},
+    handleCallElevator(floorNumber) {
+      handleCallElevator(floorNumber, this.elevators, this.queue, this.floors, this.moveElevator);
+    },
+
+    moveElevator(index) {
+      moveElevator(index, this.elevators, this.queue, this.floors, this.moveElevator);
+    },
   },
 };
 </script>
@@ -59,7 +67,7 @@ export default {
   align-items: center;
   height: 100vh;
 }
-.elev {
+.elevators {
   display: flex;
   justify-content: center;
   align-items: center;
