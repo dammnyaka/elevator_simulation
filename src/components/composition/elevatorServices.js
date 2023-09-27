@@ -1,3 +1,7 @@
+export function handleUpdateQueue(queue, fl) {
+  return queue.filter((i) => i.floor !== fl);
+}
+
 export function findClosestElevator(array, target) {
   if (array.length === 0) {
     return;

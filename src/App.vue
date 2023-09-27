@@ -19,7 +19,21 @@
           @call-elevator="handleCallElevator"
         ></floor>
       </div>
-      <div class="instruments"><Instruments></Instruments></div>
+      <div class="instruments">
+        <instruments
+          :floor="floors"
+          :elevators="elevators"
+          :moveElevator="moveElevator"
+          :queue="queue"
+          @remove-floor="removeFloor"
+          @add-floor="addFloor"
+          @add-elevator="addElevator"
+          @remove-elevator="removeElevator"
+        >
+          <template v-slot:floor>Floor</template>
+          <template v-slot:elevator>Elevator</template>
+        </instruments>
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +45,7 @@ import Instruments from "@/components/Instruments/";
 
 import * as data from "./components/data/";
 
-import { handleCallElevator, moveElevator } from "./components/composition/elevatorServices";
+import { handleUpdateQueue, handleCallElevator, moveElevator } from "./components/composition/elevatorServices";
 
 export default {
   name: "App",
@@ -57,6 +71,45 @@ export default {
     });
   },
   methods: {
+    addFloor() {
+      const newFloor = { number: this.floor.length + 1, activeFloor: false };
+      this.floors.push(newFloor);
+    },
+    removeFloor() {
+      this.elevators.map((i) => {
+        if (
+          i.currentFloor > this.floors.length - 1 ||
+          (i.targetFloor > this.floors.length - 1 && (i.status = "moving"))
+        ) {
+          clearInterval(i.moving);
+          i.status = "idle";
+          i.targetFloor = null;
+          i.moving = null;
+          i.direction = null;
+          i.targetFloor = null;
+          i.currentFloor = this.floors.length - 1;
+          localStorage.setItem(`elevator${i.id}CurrentFloor`, i.currentFloor);
+        }
+      });
+
+      this.floors.pop();
+      this.queue = handleUpdateQueue(this.queue, this.floors.length);
+    },
+    addElevator() {
+      const newElevator = {
+        id: this.elevators.length + 1,
+        currentFloor: 1,
+        direction: null,
+        status: "idle",
+        moving: null,
+        targetFloor: null,
+      };
+      this.elevators.push({ ...newElevator });
+    },
+    removeElevator() {
+      this.elevators.pop();
+    },
+
     handleCallElevator(floorNumber) {
       handleCallElevator(floorNumber, this.elevators, this.queue, this.floors, this.moveElevator);
     },
