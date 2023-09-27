@@ -10,7 +10,15 @@
         ></elevator-shaft>
       </div>
 
-      <div class="floors"><floor></floor></div>
+      <div class="floors">
+        <floor
+          v-for="floor in floors"
+          :key="floor.number"
+          :number="floor.number"
+          :activeFloor="floor.activeFloor"
+          @call-elevator="handleCallElevator"
+        ></floor>
+      </div>
       <div class="instruments"><Instruments></Instruments></div>
     </div>
   </div>
@@ -38,7 +46,9 @@ export default {
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    handleCallElevator() {},
+  },
 };
 </script>
 
