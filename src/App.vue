@@ -52,4 +52,28 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="css">
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.elev {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+.floors {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.instruments {
+  position: relative;
+  width: 100px;
+  margin-left: 10px;
+  background-color: #eee;
+  text-align: center;
+}
+</style>
