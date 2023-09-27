@@ -47,7 +47,15 @@ export default {
       queue: data.queueData,
     };
   },
-  created() {},
+  created() {
+    this.elevators.map((elevator) => {
+      const loadElevatorFloor = parseInt(localStorage.getItem(`elevator${elevator.id}CurrentFloor`), 10);
+
+      if (!isNaN(loadElevatorFloor)) {
+        elevator.currentFloor = loadElevatorFloor;
+      }
+    });
+  },
   methods: {
     handleCallElevator(floorNumber) {
       handleCallElevator(floorNumber, this.elevators, this.queue, this.floors, this.moveElevator);

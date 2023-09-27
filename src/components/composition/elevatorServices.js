@@ -62,5 +62,6 @@ export function moveElevator(index, elevators, queue, floors, moveElevator) {
     }
 
     elevator.currentFloor += elevator.direction === "up" ? 1 : -1;
+    localStorage.setItem(`elevator${elevator.id}CurrentFloor`, elevator.currentFloor);
   }, 1000);
 }
